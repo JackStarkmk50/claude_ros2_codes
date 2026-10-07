@@ -1,0 +1,42 @@
+--- 2026-09-30 19:23
+G1 person standing 120 deg left: search, track 15 s, turn back, land
+  snapshot while tracking: /root/drone_ws/gazebo_G1.jpg
+  result COMPLETED: tracked for 15 s; back at the start heading; landed and disarmed (45 s)
+  states: IDLE > PREFLIGHT > TAKING_OFF > SEARCHING > PERSON_DETECTED > TARGET_SELECTED > TRACKING > RETURNING > LANDING > MISSION_COMPLETE
+  tracking |error_x|: median 0.03, max 0.04 (149 samples)
+PASS  G1 (want COMPLETED, landed and disarmed)
+
+G2 person walking round the drone at 8 deg/s (to the right)
+  snapshot while tracking: /root/drone_ws/gazebo_G2.jpg
+  result COMPLETED: tracked for 20 s; back at the start heading; landed and disarmed (54 s)
+  states: MISSION_COMPLETE > PREFLIGHT > TAKING_OFF > SEARCHING > PERSON_DETECTED > TARGET_SELECTED > TRACKING > RETURNING > LANDING > MISSION_COMPLETE
+  tracking |error_x|: median 0.36, max 0.40 (200 samples)
+PASS  G2 (want COMPLETED, landed and disarmed)
+
+G3 person hides for 3 s while tracked: lost, reacquired, completes
+  snapshot while tracking: /root/drone_ws/gazebo_G3.jpg
+  result COMPLETED: tracked for 25 s; back at the start heading; landed and disarmed (47 s)
+  states: MISSION_COMPLETE > PREFLIGHT > TAKING_OFF > PERSON_DETECTED > TARGET_SELECTED > TRACKING > TARGET_LOST > REACQUIRING > TRACKING > RETURNING > LANDING > MISSION_COMPLETE
+  tracking |error_x|: median 0.03, max 0.05 (250 samples)
+PASS  G3 (want COMPLETED, landed and disarmed)
+
+G4 nobody in the room: full search, turn back, land
+  result TARGET_NOT_FOUND: nobody found in 361 deg of turning; back at the start heading; landed and disarmed (50 s)
+  states: MISSION_COMPLETE > PREFLIGHT > TAKING_OFF > SEARCHING > RETURNING > LANDING > MISSION_COMPLETE
+PASS  G4 (want TARGET_NOT_FOUND, landed and disarmed)
+
+G5 text command, then "stop" while tracking
+  > "look for a person and track them for 60 seconds": STARTED (watch: tools/mission.py watch; stop: "cancel"): search for a person and keep them in view by turning, default altitude, track 60 s, land at the end, with autonomous takeoff.
+  snapshot while tracking: /root/drone_ws/gazebo_G5.jpg
+  > "stop": CANCELLING (the drone lands): cancel the running mission (the drone lands).
+  final: MISSION_CANCELLED: cancelled; landed and disarmed [CANCELLED]
+  states: MISSION_COMPLETE > PREFLIGHT > TAKING_OFF > PERSON_DETECTED > TARGET_SELECTED > TRACKING > LANDING > MISSION_CANCELLED
+PASS  G5 (want CANCELLED, landed and disarmed)
+
+G6 cancel while tracking
+  result CANCELLED: cancelled; landed and disarmed (20 s)
+  states: MISSION_CANCELLED > PREFLIGHT > TAKING_OFF > PERSON_DETECTED > TARGET_SELECTED > TRACKING > LANDING > MISSION_CANCELLED
+  tracking |error_x|: median 0.25, max 0.72 (31 samples)
+PASS  G6 (want CANCELLED, landed and disarmed)
+
+GAZEBO SCENARIOS: ALL PASSED

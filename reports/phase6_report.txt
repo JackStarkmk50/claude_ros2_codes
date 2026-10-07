@@ -1,0 +1,11 @@
+== Phase 6 bench scenarios (fake vehicle, bench mode, nothing sent to MAVROS)
+PASS  S0 nodes start: safety_supervisor and fcu_command_node up
+PASS  S1 pre-flight on the ground: level OK, failures ['PF13 OUTPUT: bench mode (output_enabled=False, allow_arming=False)'] (expected only PF13 bench mode)
+PASS  S2 validated yaw command: validated yaw 0.200 rad/s (sent 0.2); command node: "WOULD SEND COMMAND: validated command (vx -0.00 vy -0.00 vz -0.00 m/s, yaw_rate 0.200 rad/s FLU)"
+PASS  S3 yaw clamp: sent 3.0 rad/s, validated 0.524 (limit 0.524), clamped count 16
+PASS  S4 bad commands rejected: 3/3 rejected (unknown source, replayed seq, NaN), 0 forwarded
+PASS  S5 mission stops: command node HOLD after 0.33 s (limit 0.3 s + 10 Hz tick), safety ABORT after 5.3 s (hold_to_land_s 5)
+PASS  S6 reset: in the air: "vehicle is armed: reset only on the ground, disarmed"; on the ground: "cleared: HOLD_TIMEOUT"
+PASS  S7 pilot override: safety OVERRIDE, command node "SILENT: override: pilot/FCU has authority"
+PASS  S8 safety_supervisor killed: command node HOLD after 0.12 s, LAND flagged after 0.62 s; last: "WOULD SEND HOLD: safety status stale (1.1 s) | LAND needed: safety_supervisor lost while airborne (LAND arrives in Phase 8; the pilot must land)"
+BENCH TEST: ALL PASSED

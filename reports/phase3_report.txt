@@ -1,0 +1,92 @@
+== 1. connection
+PASS  /mavros/state connected: True
+armed: false
+guided: false
+mode: STABILIZE
+system_status: 3
+== 2. firmware
+autopilot=3
+type=2
+flight_sw_version=67503103
+== 3. MAVROS setup
+INFO  MAVROS plugin nodes loaded: 12 (expected 12)
+PASS  local_position tf.send = False (no map/odom TF)
+== 4. topic rates (6 s each)
+/mavros/state                                 0.999 Hz
+/mavros/imu/data                              NONE Hz
+/mavros/local_position/pose                   NONE Hz
+/mavros/local_position/velocity_body          NONE Hz
+/mavros/battery                               NONE Hz
+/mavros/sys_status                            NONE Hz
+/mavros/extended_state                        NONE Hz
+/mavros/rc/in                                 NONE Hz
+/mavros/optical_flow/raw/optical_flow         100.433 Hz
+/mavros/rangefinder/rangefinder               NONE Hz
+== 5. one optical-flow and rangefinder sample
+quality: 72
+ground_distance: -1.0
+== 6. raw MAVLink on the wire (10 s)
+listening to /uas1/mavlink_source for 10 s ...
+
+  id  message                        Hz   bytes/s
+ 100  OPTICAL_FLOW                100.6      3420
+ 132  DISTANCE_SENSOR             100.6      2213
+   0  HEARTBEAT                     1.0        21
+  22  PARAM_VALUE                   0.1         4
+ 111  TIMESYNC                      0.1         3
+
+FCU -> Pi total: 5661 bytes/s = 49% of 115200 baud (11520 bytes/s). Bad CRC frames: 0
+MISSING (needed later; request with tools/request_streams.sh): 1 SYS_STATUS, 30 ATTITUDE, 32 LOCAL_POSITION_NED, 147 BATTERY_STATUS, 193 EKF_STATUS_REPORT, 245 EXTENDED_SYS_STATE
+== 7. FCU parameters (read-only pull; can take ~1 min at 115200)
+success=True
+param_received=1040
+INFO  1040 FCU parameters available
+SERIAL1_PROTOCOL   2
+SERIAL1_BAUD       115
+FLOW_TYPE          5
+FLOW_ORIENT_YAW    0
+RNGFND1_TYPE       10
+RNGFND1_MIN        (not on this firmware)
+RNGFND1_MAX        (not on this firmware)
+RNGFND1_MIN_CM     1
+RNGFND1_MAX_CM     800
+EK3_SRC1_POSXY     0
+EK3_SRC1_VELXY     5
+EK3_SRC1_POSZ      2
+EK3_SRC1_YAW       1
+GUID_TIMEOUT       3.0
+GUID_OPTIONS       3
+DISARM_DELAY       10
+LAND_SPEED         30
+PILOT_SPEED_UP     80
+WPNAV_SPEED_UP     30.0
+ARMING_CHECK       0
+FS_THR_ENABLE      1
+FS_EKF_ACTION      2
+FS_EKF_THRESH      0.800000011920929
+FS_GCS_ENABLE      0
+BATT_MONITOR       4
+BATT_LOW_VOLT      6.0
+BATT_CRT_VOLT      4.0
+BATT_FS_LOW_ACT    0
+BATT_FS_CRT_ACT    0
+FENCE_ENABLE       0
+FENCE_TYPE         7
+FENCE_ALT_MAX      120.0
+FLTMODE_CH         5
+FLTMODE1           0
+FLTMODE2           0
+FLTMODE3           0
+FLTMODE4           4
+FLTMODE5           0
+FLTMODE6           5
+SYSID_MYGCS        255
+SR1_RAW_SENS       0
+SR1_EXT_STAT       0
+SR1_RC_CHAN        0
+SR1_POSITION       0
+SR1_EXTRA1         0
+SR1_EXTRA2         0
+SR1_EXTRA3         0
+RC6_OPTION         17
+== done. Report saved to /home/virtua/drone_ws/phase3_report.txt

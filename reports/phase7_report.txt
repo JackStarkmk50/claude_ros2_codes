@@ -1,0 +1,16 @@
+== Phase 7 setpoint test (props off)
+PASS  check: stack up, output on, ground test on, FCU mode ?, armed False, safety level 0
+PASS  idle: disarmed: 0 setpoints on the wire (expected 0), output "SILENT: disarmed"
+PASS  arm: armed in STABILIZE: 0 setpoints on the wire (expected 0), output "SILENT: mode STABILIZE, not GUIDED"
+PASS  guided: GUIDED with no mission: output "HOLD: no fresh validated command", 10.0 setpoints/s on the wire (expected 10, all zero), e.g. frame 8 mask 1479 v (+0.00 +0.00 +0.00) m/s yaw_rate -0.000 rad/s
+PASS  guided: Pixhawk echo: 15 targets, mask 3079 frame 1, v (+0.00 +0.00 +0.00) m/s
+PASS  yaw: turn LEFT (counter-clockwise): we send +0.20 rad/s FLU, the Pixhawk receives -0.200 rad/s NED (expected -0.20: MAVLink yaw rate is + clockwise), translation zero
+PASS  yaw: turn RIGHT (clockwise): we send -0.20 rad/s FLU, the Pixhawk receives +0.200 rad/s NED (expected +0.20: MAVLink yaw rate is + clockwise), translation zero
+PASS  stop: commands stopped: HOLD after 0.31 s (limit 0.3 s + one 10 Hz tick), then 10 zero setpoints/s
+PASS  override: switched to STABILIZE: safety level 4 (OVERRIDE is 4) after 0.06 s, output "SILENT: override: pilot/FCU has authority", 0 setpoints on the wire afterwards (expected 0)
+PASS  override: back in GUIDED: level 4, output "SILENT: override: pilot/FCU has authority", 0 setpoints (expected 0: override stays latched)
+PASS  reset: reset: "cleared: OVERRIDE", level now 0
+PASS  estop: emergency stop: motors stopped = y; FCU armed right after = False
+PASS  safety_lost: safety_supervisor stopped: command node HOLD after 0.57 s (limit 0.5 s + one 10 Hz tick), output "HOLD: safety status stale (1.6 s)", 10 zero setpoints/s on the wire
+PASS  command_lost: fcu_command_node stopped: 0 setpoints on the wire afterwards (expected 0). In the air the Pixhawk stops by itself after GUID_TIMEOUT (default 3 s)
+SETPOINT TEST: no FAIL

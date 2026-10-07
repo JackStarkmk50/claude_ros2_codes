@@ -1,0 +1,39 @@
+== Phase 4 state check (15.0 s)
+PASS  publish rate: vehicle_state 9.5 Hz, flow_status 9.5 Hz (want 10)
+PASS  connected (heartbeat age 0.90 s)
+PASS  mode reported: STABILIZE, armed: False
+PASS  landed_state from EXTENDED_SYS_STATE: ON_GROUND
+PASS  attitude: roll -1.5 pitch 0.3 deg
+PASS  rangefinder height: 0.14 m (DISTANCE_SENSOR)
+PASS  optical flow from FCU: quality 72, age 0.02 s
+PASS  EKF_STATUS_REPORT: flags 0x16f, att True vel True pos True const_pos False, age 0.45 s
+PASS  battery: 0.03 V
+WARN  RC present (WARN if your transmitter is off)
+PASS  EKF velocity (LOCAL_POSITION_NED) present
+WARN  FCU pre-arm bit: False
+INFO  flow healthy_for_takeoff=True healthy_for_flight=False reason: height 0.14 m below flow band; quality 72 < 100
+== diagnostics
+fcu_state_node: fcu_state: estimator and flow: flow not flight-ready: height 0.14 m below flow band; quality 77 < 100
+    ekf_flags                            367 (attitude|vel_horiz|vel_vert|pos_horiz_rel|pos_vert_abs|pos_vert_agl|pred_pos_horiz_rel)
+    ekf_age_s                            0.31
+    flow_quality                         77
+    height_m                             0.14
+    heading_deg                          335
+    healthy_for_takeoff                  True
+    healthy_for_flight                   False
+fcu_state_node: fcu_state: link: link load 71% of 115200
+    heartbeat_age_s                      0.31
+    link_load                            71% (8232 B/s of 11520)
+    fcu SYS_STATUS                       2.0 Hz (want 2)
+    fcu ATTITUDE                         10.0 Hz (want 10)
+    fcu LOCAL_POSITION_NED               10.0 Hz (want 10)
+    fcu RC_CHANNELS                      2.0 Hz (want 2)
+    fcu OPTICAL_FLOW                     10.0 Hz (want 10)
+    fcu DISTANCE_SENSOR                  10.0 Hz (want 10)
+    fcu EKF_STATUS_REPORT                2.0 Hz (want 2)
+    fcu EXTENDED_SYS_STATE               2.0 Hz (want 2)
+    forwarded 1/88 OPTICAL_FLOW          100.4 Hz, 3815 B/s
+    forwarded 1/88 DISTANCE_SENSOR       100.4 Hz, 2610 B/s
+== last summary line
+LINK up hb 0.9s | STABILIZE disarmed ON_GROUND | prearm NO | RC NO | batt 0.03V | roll -1.5 pitch 0.3 hdg 335 | h 0.14m | flow q72 fresh | EKF 0x16f att 1 vel 1 pos 1 | takeoff ok flight NO [height 0.14 m below flow band; quality 72 < 100]
+STATE CHECK: ALL REQUIRED PASSED
