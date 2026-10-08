@@ -1,0 +1,26 @@
+# ArduPilot SITL parameters for the Gazebo indoor world (NOT for the real Pixhawk).
+# Frame: the Gazebo iris (X frame). Indoor: no GPS, optical flow + downward rangefinder
+# simulated by SITL, EKF3 on flow for horizontal velocity, rangefinder for height.
+FRAME_CLASS     1
+FRAME_TYPE      1
+SIM_GPS_DISABLE 1
+GPS1_TYPE       0
+FLOW_TYPE       10
+SIM_FLOW_ENABLE 1
+RNGFND1_TYPE    1
+# ArduPilot 4.6 uses RNGFND1_MIN/MAX in metres; the old RNGFND1_MIN_CM/MAX_CM names are ignored.
+RNGFND1_MIN     0
+RNGFND1_MAX     40
+RNGFND1_PIN     0
+RNGFND1_SCALING 12.12
+RNGFND1_ORIENT  25
+SIM_SONAR_SCALE 12.12
+SIM_SONAR_POS_Z -0.14
+EK3_SRC1_POSXY  0
+EK3_SRC1_VELXY  5
+EK3_SRC1_VELZ   0
+EK3_SRC1_POSZ   2
+EK3_SRC1_YAW    1
+ARMING_CHECK    1
+SIM_BATT_VOLTAGE 16.8
+DISARM_DELAY    10
