@@ -1,0 +1,51 @@
+PRE-FLIGHT OK
+
+RESULT: FAILED at PREFLIGHT: TAKEOFF REFUSED: PF12 ALTITUDE: 3.0 m outside 0.80-1.50 m
+
+RESULT: FAILED at PREFLIGHT: LAND REFUSED: vehicle is disarmed: nothing to land
+SET_GUIDED     0.0 s  height  0.16 m  
+ARM            0.1 s  height  0.14 m  
+TAKEOFF_CMD    0.1 s  height  0.16 m  
+TAKEOFF_CMD    0.2 s  height  0.16 m  takeoff sent, waiting for the climb to start
+CLIMB          0.0 s  height  0.16 m  climbing: 0.16 / 0.65 m
+SET_LAND       0.0 s  height  0.16 m  climb timeout: height 0.16 m after 9 s (needs 0.65 m): LAND
+SET_LAND       0.1 s  height  0.16 m  
+DESCEND        0.0 s  height  0.16 m  descending: 0.16 m
+TOUCHDOWN      0.1 s  height  0.16 m  touchdown: waiting for ArduPilot to disarm
+
+RESULT: FAILED at CLIMB: climb timeout: height 0.16 m after 9 s (needs 0.65 m); landed and disarmed
+  after 19.3 s: armed False, landed_state 1, height 0.16 m
+SET_GUIDED     0.0 s  height  0.14 m  
+ARM            0.0 s  height  0.14 m  
+ARM            0.1 s  height  0.14 m  waiting for the FCU to arm
+TAKEOFF_CMD    0.0 s  height  0.14 m  
+TAKEOFF_CMD    0.1 s  height  0.14 m  takeoff sent, waiting for the climb to start
+
+Cancelling the TAKEOFF: the drone LANDS if it is armed...
+SET_LAND       0.0 s  height  0.16 m  cancelled: LAND
+SET_LAND       0.1 s  height  0.16 m  
+TOUCHDOWN      0.0 s  height  0.16 m  touchdown: waiting for ArduPilot to disarm
+
+RESULT: FAILED at TAKEOFF_CMD: cancelled; landed and disarmed
+  after 2.4 s: armed False, landed_state 1, height 0.14 m
+SET_GUIDED     0.0 s  height  0.16 m  
+ARM            0.1 s  height  0.14 m  
+ARM            0.2 s  height  0.16 m  waiting for the FCU to arm
+TAKEOFF_CMD    0.0 s  height  0.16 m  
+TAKEOFF_CMD    0.1 s  height  0.16 m  takeoff sent, waiting for the climb to start
+CLIMB          0.0 s  height  0.16 m  climbing: 0.16 / 0.65 m
+SET_GUIDED     0.0 s  height  0.14 m  
+ARM            0.0 s  height  0.14 m  
+ARM            0.1 s  height  0.14 m  waiting for the FCU to arm
+TAKEOFF_CMD    0.1 s  height  0.14 m  
+TAKEOFF_CMD    0.2 s  height  0.16 m  takeoff sent, waiting for the climb to start
+
+RESULT: FAILED at TAKEOFF_CMD: vehicle left GUIDED/armed before takeoff (mode STABILIZE, armed True)
+  after 1.6 s: armed True, landed_state 1, height 0.16 m
+waiting for service to become available...
+requester: making request: std_srvs.srv.Trigger_Request()
+
+response:
+std_srvs.srv.Trigger_Response(success=True, message='cleared: OVERRIDE')
+
+PRE-FLIGHT OK

@@ -1,0 +1,13 @@
+Name	drone-real-hardware-findings
+Description	What the user's real Pixhawk/MTF-01 setup reported in Phase 3-4 and the user's answers on FCU settings, battery, RC, floor
+Metadata	type: project
+
+Real Pixhawk facts (Phase 3 report): MTF-01 msgs forwarded to TELEM1 at 100 Hz (OPTICAL_FLOW+DISTANCE_SENSOR, 49% of 115200; suggested SERIALn_OPTIONS +1024 no-forward on its port); SR1_* all 0 (fcu_state_node now requests streams on connect); rangefinder is DISTANCE_SENSOR (RNGFND1_TYPE 10), decoded raw from FCU sysid/compid 1/1 only; ARMING_CHECK=0 (recommend 1 before Phase 7); battery is 4S (drone.yaml set 15.6 takeoff, 14.4 warn, 14.0 land; FCU suggested LOW 14.0 CRT 13.6 act Land); GPS was removed, user set ARMING_CHECK 0 because of it; MTF-01 on TELEM2 = SERIAL2 115200 (suggested SERIAL2_OPTIONS +1024); RC6 was AutoTune (17), user agreed to change to 31 e-stop; FLTMODE4 GUIDED, FLTMODE6 LOITER; EK3_SRC1 POSZ 2 VELXY 5 YAW 1.
+
+Phase 4 report (2026-09-29): MTF-01 is sysid 1 compid 88; EKF flags on ground 0x16f; LOCAL_POSITION_NED arrives; floor height 0.14 m on landing gear; ground_height_max_m set 0.25 (user asked why; explained). Floor is tiles; flight surface = cardboard boxes (uneven heights); drone currently tethered on a table by Pi power cable.
+
+How to apply: use these before recommending FCU params or thresholds; see [[drone-architecture-proposal]].
+
+Phase 7 (2026-09-29): with ARMING_CHECK=1 and no GPS, LOITER arming refused "PreArm: AHRS: waiting for home"; STABILIZE arms. Told user to arm in STABILIZE then flip to GUIDED. Phase 8 must set the EKF origin from the Pi at startup (SET_GPS_GLOBAL_ORIGIN via MAVROS /mavros/global_position/set_gp_origin, then home) so GUIDED arming works without GPS; promised to user.
+
+Phase 8 on the Pi (2026-10-05): preflight PF4 failed with "PreArm: Check mag field (xy diff:299>100)", appearing once the Pi set the EKF origin (ArduPilot compares the measured field with the expected field at that location). Advised: verify ekf_origin lat/lon = user's city, move the drone off metal and away from electronics, recalibrate the compass in Mission Planner, then retest; ARMING_MAGTHRESH only as a last resort, and only if the user decides. Waiting on the user's lat/lon values and the magfield reading.

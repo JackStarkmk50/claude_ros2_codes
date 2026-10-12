@@ -1,0 +1,8 @@
+PASS  T1 (state NONE): NONE, last side right
+PASS  T2 (TRACKING, |error_x| < 0.35): TRACKING id 45, error_x -0.04, size 0.63, seen 18 frames, 0.2 s ago, last side centre
+PASS  T3 (TRACKING, error_x < -0.3): TRACKING id 45, error_x -0.42, size 0.68, seen 116 frames, 0.1 s ago, last side left
+FAIL  T4 (TRACKING, error_x > +0.3): TRACKING id 45, error_x +0.20, size 0.65, seen 303 frames, 0.2 s ago, last side right
+FAIL  T5 (LOST, last side right): NONE, last side centre
+PASS  T6 (TRACKING again): TRACKING id 46, error_x -0.13, size 0.62, seen 31 frames, 0.1 s ago, last side left
+INFO  after coming back the target id is new (45 -> 46); both are fine
+TRACK CHECK: FAILURES ABOVE

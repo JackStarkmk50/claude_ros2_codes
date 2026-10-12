@@ -1,0 +1,22 @@
+model /home/virtua/drone_ws/models/yolo11n_320.onnx (320 px, 3 threads), image 640x480
+1 detection(s):
+  person   0.76  box x 187-305, y 46-359
+time per frame over 30 runs: median 51.9 ms, worst 84.9 ms  (= up to 19.3 fps)
+CPU temperature: 49.6 C before, 51.2 C after
+annotated image: /home/virtua/drone_ws/camera_snapshot_detections.jpg
+PASS  Y1 detections arrive: 375 messages
+PASS  Y2 detector rate >= 5 fps: 12.5 fps
+PASS  Y3 image age at detection <= 300 ms: median 132 ms, worst 199 ms
+PASS  Y4 person seen (info): in 259 of 375 frames (69%), most at once 1
+PASS  Y5 CPU temperature < 80 C: 51.8 C
+INFO  CPU busy: average 84%
+INFO  detector diagnostics: camera_fps 16.6, cpu_temp_c 54.0, detector_fps 12.8, dropped_newer_frame_arrived 178, errors 0, latency_max_ms 175.0, latency_ms 130.5, model_ms 77.2, people_per_frame 1.0, skipped_too_old 0, summary 12.8 fps
+YOLO CHECK: ALL PASSED
+PASS  Y1 detections arrive: 255 messages
+PASS  Y2 detector rate >= 5 fps: 12.5 fps
+PASS  Y3 image age at detection <= 300 ms: median 133 ms, worst 199 ms
+PASS  Y4 person seen (info): in 8 of 255 frames (3%), most at once 1
+PASS  Y5 CPU temperature < 80 C: 54.5 C
+INFO  CPU busy: average 83%
+INFO  detector diagnostics: camera_fps 16.6, cpu_temp_c 55.1, detector_fps 12.4, dropped_newer_frame_arrived 550, errors 0, latency_max_ms 183.1, latency_ms 131.6, model_ms 78.8, people_per_frame 0.0, skipped_too_old 0, summary 12.4 fps
+YOLO CHECK: ALL PASSED

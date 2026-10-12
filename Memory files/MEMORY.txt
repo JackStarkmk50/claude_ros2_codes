@@ -1,0 +1,43 @@
+
+ROS2 project
+Owner: Moganesan. Private project.
+Goal: build a safe ROS 2 Jazzy autonomous indoor drone stack from scratch (Raspberry Pi 5 companion, Ubuntu 24.04, Pixhawk + ArduPilot over MAVLink). Current scope: MAVLink bridge, state, optical flow via FCU EKF, camera, YOLO person detection, tracking, deterministic search/track mission, safety watchdog, LLM intent layer. Future only: VIO, SLAM, LiDAR, mapping.
+
+Final goal is FULLY autonomous flight (2026-09-27): ROS must support pre-arm validation, mode, arm, takeoff to configured altitude with verification, mission, autonomous land, disarm, all through the safety layer. RC stays as manual override/emergency only. Do not design around RC-only arm/takeoff.
+
+Hardware: Pixhawk TELEM1 (SERIAL1), MAVLink 2, ModemManager disabled. SERIAL1 baud changed by user to 921600 on 2026-09-29 (was 115200); Phase 8 release makes fcu_baud default 921600. ArduCopter 4.6.3. GPS removed (indoor). Battery 4S (user 2026-09-29), NOT yet connected on the bench: drone powered by USB only (2026-09-29). Flow sensor MTF-01 (optical flow + rangefinder; rangefinder reports via DISTANCE_SENSOR, device 1/88, reads 0.14 m on floor because of landing gear) on TELEM2 = SERIAL2 @115200. Camera: Zebronics USB. Pi 5 has active cooler.
+
+Test area: home floor is tiles; user has a textured "mat" of 5+ cardboard boxes. Bench setup: drone sits on a table, tethered by the Pi power cable, cannot be moved around (2026-09-29).
+
+Pi devices (user output 2026-09-28): TELEM1 = /dev/ttyAMA0 (also /dev/ttyAMA10 exists; no /dev/serial* symlinks, no ttyUSB/ttyACM); USB camera "HD camera" at /dev/video0 (+/dev/video1). Pi user is virtua, hostname viruta.
+
+RC: RC6_OPTION=31 (motor emergency stop) set by user 2026-09-29 (was 17 AutoTune). Flight-mode switch includes STABILIZE, LOITER and GUIDED. Phase 4 test: switching TX off mid-run did not change RC state, likely receiver holds last values (failsafe not "no pulses"); flagged to user 2026-09-29. Node now also uses ArduPilot radio-failsafe flag.
+
+No GPS means no home/EKF origin: with ARMING_CHECK=1, arming in LOITER is refused ("PreArm: AHRS: waiting for home"), STABILIZE arms fine (user 2026-09-29). Phase 8 sets the EKF origin from the Pi at startup (lat/lon in drone.yaml, city level) so GUIDED arming works without GPS.
+
+Working style: phased, props-off bench testing by default, complete files, exact commands, "WHAT / WHY / COMMAND / EXPECTED / IF NOT" troubleshooting. Stop at checkpoints for user confirmation.
+Architecture doc v2 approved 2026-09-27: /mnt/project-files/drone_architecture/ (thread "Drone ROS 2 architecture").
+
+Phase 2 (7 packages, 9 interfaces, skeleton nodes) built in cloud 2026-09-27 and verified on the Pi 2026-09-28.
+
+Phase 3 (MAVROS read-only telemetry link on /dev/ttyAMA0, then @115200) verified via user's report 2026-09-29. MAVROS runs without a namespace (avoids /mavros/mavros); rely only on verified plugin defaults; needs geographiclib-tools. SR1_* all 0, so fcu_state_node requests streams itself.
+
+FCU params user reported set 2026-09-29 (Mission Planner): RC6_OPTION=31, DISARM_DELAY=60 (temporary for Phase 7, restore 10 after), SERIAL1_BAUD=921600, ARMING_CHECK=1, GPS1_TYPE=0 and GPS2_TYPE=0, SERIAL2_OPTIONS=1024 (don't forward MTF-01 to TELEM1). SERIAL1_PROTOCOL=2 and SERIAL2_PROTOCOL=1 (both fine, leave as is). Pixhawk rebooted after. Still open: battery failsafe 4S voltages; further FCU param changes listed at end of Phase 8 doc before first real flight.
+
+Phase 4 (fcu_state_node publishes VehicleState + FlowStatus at 10 Hz, stale values invalid; tools/state_monitor.py; docs/PHASE4_DRONE_STATE.md) passed on the Pixhawk 2026-09-29 (all required checks green). EKF gives usable relative position on ground with flow, no GPS. ground_height_max_m raised 0.15 -> 0.25 m [TUNE], explained to user (landed/takeoff gate, keep < 0.3 m). Battery 0.03 V explained by USB-only power.
+
+Phase 5 (hand-held optical flow test; tools/flow_test.py, 11 guided steps) delivered 2026-09-29. DEFERRED by agreement 2026-09-29 (drone tethered to table): full hand-held run, flow direction signs and flow_min_quality tuning (placeholder 100) must happen before the first real autonomous takeoff, once on 4S battery and cable-free. User may run table-only steps now: flow_test.py --steps pitch,roll,cover.
+
+Phase 6 (safety_supervisor levels OK/DEGRADED/HOLD/ABORT/OVERRIDE, /drone/safety/preflight_check Trigger service, command filter, fcu_command_node bench mode sends nothing; tools/bench_test.py 8 fake-drone scenarios; 96 tests) PASSED on the Pi 2026-09-29. Live preflight fails only on PF4 FCU_PREARM, PF5 battery (USB), PF13 bench mode (expected).
+
+Phase 7 (props-off, Pi sends real setpoints; user arms on RC in STABILIZE then flips to GUIDED; tools/setpoint_test.py; docs/PHASE7_SETPOINTS.md; 101 tests) PASSED on the Pi 2026-09-30 (user uploaded report, all 13 checks passed). Yaw sign only verified at FCU input; physical yaw checked at first hover.
+
+Phase 8 (Pi runs preflight, GUIDED, arm, takeoff, verified hover, LAND, FCU-confirmed disarm; sets EKF origin; auto-land on ABORT; 121 tests) delivered 2026-09-30, tested in ArduCopter 4.6.3 SITL only (indoor no-GPS, flow + 0.14 m rangefinder). Props-off bench test: Pi arms and commands takeoff, motors loud up to 5 s, no climb detected, lands and disarms (expected failure). After every landing the mode switch must go back to STABILIZE or the next takeoff is blocked (by design). If fcu_command_node crashes in air, only the user can land. Waiting on user: set lat/lon in drone.yaml, run props-off test, send report.
+
+Phases 9-13 written and tested in the container 2026-09-30 at the user's request ("write all other phase codes, I'll test each phase"), user tests them in order after Phase 8. Tarballs drone_ws_releases/drone_ws_phase9..13.tar.gz (cumulative) + yolo11n_320.onnx (AGPL-3.0); docs docs/PHASE9_CAMERA, PHASE10_YOLO, PHASE11_TRACKING, PHASE12_MISSION, PHASE13_LLM. 9 camera (v4l2_camera, TF, camera_check.py, carry_settings.py keeps [SET] values), 10 YOLO ONNX (yolo_check.py), 11 tracker (track_check.py), 12 SearchAndTrack mission (yaw-only; mission.py; M1-M10 passed in SITL with real YOLO), 13 intent_bridge (keyword parser + guard, optional Claude API llm_enabled false, allow_execute false [SET]; command.py; 260 tests). Real Claude API NOT tested (no key). None of 9-13 verified on the Pi yet.
+
+Gazebo sim delivered 2026-09-30 (user asked to combine all code and test in Gazebo): drone_ws_releases/drone_ws_complete.tar.gz = whole workspace + YOLO model + sim/gazebo (indoor_search world, run_sim.sh, gz_scenarios.py G1-G6, setup_gazebo.sh for a Ubuntu 24.04 PC), docs/GAZEBO_SIM.md. G1-G6 all passed in-container (Gazebo Harmonic, SITL Copter-4.6.3). setup_gazebo.sh (apt path) NOT run here (container used conda). takeoff_start_timeout_s now [TUNE]; sim copy uses 8 s.
+
+Build gotchas: don't pip-upgrade setuptools (colcon breaks); don't pip-install pytest; pip deps live in ~/drone_venv, added via env.sh.
+
+Reference repo (read-only inspiration): github.com/EspiroFares/Autonomous-UAV. No user repo attached yet.

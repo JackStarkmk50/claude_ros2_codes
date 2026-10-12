@@ -1,0 +1,8 @@
+Compass "Check mag field xy diff 299>100" was caused by the Pi/camera sitting under the drone. User mounted everything and recalibrated (offsets 36/-32/229, fit 17.2). Preflight OK. Mission Planner magfield ~400 is the normal total field, not an error.
+
+Phase 8 props-off takeoff 0.8 on the real Pixhawk ends "FAILED at CLIMB: climb timeout: height 0.16 m after 9 s; landed and disarmed" (ArduPilot reports landed_state TAKEOFF once motors spool). Safe pass. docs/PHASE8_TAKEOFF_LAND.md step 6 now accepts both outcomes (tarballs not yet repacked).
+
+Pi 5 red-LED-only shutdowns: CONFIRMED undervoltage (throttled=0x50000, journal "Undervoltage detected" every few s). Told user: 5 V 5 A supply (official 27 W or 5 V 5 A UBEC), Pi powered by robu.in 2-13S 5V 5A BEC from the battery (5.25 V no load). Told user NOT 6 V; measure under load with vcgencmd pmic_read_adc EXT5V_V; suspect wiring sag or weak BEC; asked USB-C vs GPIO. After a drop: "PreArm: Accels inconsistent" (told: still + Pixhawk reboot, else accel cal) and PF10 latched fault (reset via /drone/safety/reset).
+
+Waiting on user: phase8_report.txt, steps 7-8.
+Related: [[MEMORY]]

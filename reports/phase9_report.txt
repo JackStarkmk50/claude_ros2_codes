@@ -1,0 +1,12 @@
+PASS  C1 frames arrive: 164 frames
+PASS  C2 frame rate: 16.5 fps (need >= 15)
+PASS  C3 image size: 640x480
+PASS  C4 encoding: rgb8
+PASS  C5 frame_id: camera_optical_frame
+PASS  C6 stamp = capture time: median 4 ms, min 4 ms behind now
+PASS  C7 stamps increase: 0 out of order
+PASS  C8 no long gaps: longest gap 0.18 s
+PASS  C9 camera_info: 640x480 camera_optical_frame, not calibrated (fine: only pixel offsets are used)
+PASS  C10 TF base_link -> camera_optical_frame: found
+snapshot saved: /home/virtua/drone_ws/camera_snapshot.jpg
+CAMERA CHECK: ALL PASSED
