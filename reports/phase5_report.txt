@@ -1,0 +1,40 @@
+== Phase 5 flow test (props off, disarmed, hand-held)
+PASS  floor: Put the drone flat on your usual floor and let go.
+      height mean 0.14 m, spread 0.02 m, valid 90/90
+      flow quality median 89, min 76, >= 100 in 2/90 samples
+      EKF flags 0x16f (attitude|vel_horiz|vel_vert|pos_horiz_rel|pos_vert_abs|pos_vert_agl|pred_pos_horiz_rel)
+      flow_status: takeoff True, flight False, reason: height 0.14 m below flow band; quality 91 < 100
+      on-ground limit ground_height_max_m is 0.25 m
+PASS  pitch: Hold it in the air and tilt the NOSE DOWN about 20 degrees. Hold still.
+      pitch mean 19.9 deg (expected positive, about +20)
+PASS  roll: Tilt the RIGHT side DOWN about 20 degrees. Hold still.
+      roll mean 19.3 deg (expected positive, about +20)
+PASS  north: Hold it level with the nose pointing NORTH (use a phone compass).
+      compass heading 3 deg (expected near 0; indoors 10-20 deg off is common)
+INFO  h50: Hold it level and still, sensor about 0.5 m above the floor.
+      height mean 0.52 m, spread 0.01 m, valid 90/90
+      flow quality median 87, min 81, >= 100 in 0/90 samples
+      EKF flags 0x16f (attitude|vel_horiz|vel_vert|pos_horiz_rel|pos_vert_abs|pos_vert_agl|pred_pos_horiz_rel)
+      flow_status: takeoff True, flight False, reason: quality 90 < 100
+INFO  h100: Hold it level and still at about 1.0 m.
+      height mean 1.01 m, spread 0.06 m, valid 90/90
+      flow quality median 107, min 102, >= 100 in 90/90 samples
+      EKF flags 0x16f (attitude|vel_horiz|vel_vert|pos_horiz_rel|pos_vert_abs|pos_vert_agl|pred_pos_horiz_rel)
+      flow_status: takeoff True, flight True, reason: -
+INFO  h150: Hold it level and still at about 1.5 m.
+      height mean 1.50 m, spread 0.10 m, valid 90/90
+      flow quality median 122, min 117, >= 100 in 90/90 samples
+      EKF flags 0x16f (attitude|vel_horiz|vel_vert|pos_horiz_rel|pos_vert_abs|pos_vert_agl|pred_pos_horiz_rel)
+      flow_status: takeoff True, flight True, reason: -
+INFO  rotate: At about 1 m, rock it nose up / nose down, then left / right, around its own centre. Keep the sensor over the same spot (rotate, do not move).
+      body rotation rate (gyro) RMS 0.51 rad/s
+      FCU flow rate RMS 0.59 rad/s, FCU compensated flow RMS 0.29 (101 samples)
+      I interpret these: flow should follow the rotation, and the compensated value should stay much smaller than the raw one
+PASS  forward: At about 1 m and level, walk FORWARD slowly (nose direction) about 1 m, then stop.
+      EKF body velocity x: peak 0.26 m/s, mean 0.13 m/s (70/70 valid); expected POSITIVE (ROS: x forward, y left)
+      FCU flow rate x/y mean 0.024 / 0.171 rad/s
+PASS  left: At about 1 m and level, move it to its LEFT slowly about 1 m, then stop.
+      EKF body velocity y: peak 0.25 m/s, mean 0.10 m/s (71/71 valid); expected POSITIVE (ROS: x forward, y left)
+      FCU flow rate x/y mean 0.065 / 0.001 rad/s
+PASS  cover: At about 1 m, cover the flow sensor lens with your hand.
+      quality min 22, last 28; reason: height 0.06 m below flow band; quality 28 < 100

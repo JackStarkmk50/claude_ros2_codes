@@ -1,0 +1,10 @@
+   0.0 s  PREFLIGHT         target   -  turned     0 deg  checking pre-flight
+
+RESULT: PREFLIGHT_FAILED: pre-flight failed: PRE-FLIGHT FAILED: PF13 OUTPUT: bench mode (output_enabled=False, allow_arming=False)
+  after 0.2 s, landed and disarmed: True
+   0.0 s  PREFLIGHT         target   -  turned     0 deg  checking pre-flight
+   0.2 s  TAKING_OFF        target   -  turned     0 deg  taking off to 1.20 m
+  21.8 s  TAKING_OFF        target   -  turned     0 deg  takeoff failed: climb timeout: height 0.14 m after 11 s (needs 1.05 m); landed and disarmed
+
+RESULT: TAKEOFF_FAILED: takeoff failed: climb timeout: height 0.14 m after 11 s (needs 1.05 m); landed and disarmed
+  after 21.9 s, landed and disarmed: True
